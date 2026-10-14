@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PFO 2 - Sistema de Gestión de Tareas con API y Base de Datos</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #182234;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --font-mono: 'Consolas', 'Courier New', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        header {
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .badge-sub {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 750px;
+            margin: 0 auto 20px;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-info span strong {
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+
+        /* Endpoints Table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        th, td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--bg-secondary);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .method-badge {
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: var(--font-mono);
+        }
+
+        .method-post { background-color: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .method-get { background-color: rgba(56, 189, 248, 0.2); color: var(--accent); }
+
+        code {
+            font-family: var(--font-mono);
+            background: #090d16;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #e2e8f0;
+            font-size: 0.9em;
+        }
+
+        /* Capturas de Pantalla */
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
+        }
+
+        .screenshot-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid var(--border);
+            background: #000;
+        }
+
+        .screenshot-info {
+            padding: 16px;
+        }
+
+        .screenshot-info h4 {
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .screenshot-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="badge-sub">Práctica Formativa Obligatoria 2 (PFO 2)</div>
+        <h1>Sistema de Gestión de Tareas</h1>
+        <p class="subtitle">API REST con Flask, Persistencia en SQLite y Autenticación Criptográfica con Hashing de Contraseñas</p>
+        
+        <div class="meta-info">
+            <span><strong>Materia:</strong> Programación sobre Redes</span>
+            <span><strong>Institución:</strong> IFTS Nº 29</span>
+            <span><strong>Estudiante:</strong> Melissa Galeano Ibañez </span>
+            <span><strong>Año:</strong> 2026</span>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. RESUMEN DEL PROYECTO -->
+        <section id="resumen">
+            <h2>📌 Descripción General</h2>
+            <p>
+                Este proyecto implementa una arquitectura cliente-servidor desacoplada basada en el protocolo HTTP. 
+                El servidor expone una API REST para gestionar el ciclo de vida de usuarios (registro y autenticación), garantizando la seguridad mediante funciones hash criptográficas unidireccionales con sal (<em>salting</em>). 
+                El sistema incluye un cliente interactivo por consola que consume los endpoints y administra el flujo de acceso seguro hacia la vista de gestión de tareas.
+            </p>
+        </section>
+
+        <!-- 2. DOCUMENTACIÓN DE ENDPOINTS -->
+        <section id="endpoints">
+            <h2>🚀 Endpoints de la API REST</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Endpoint</th>
+                            <th>Descripción</th>
+                            <th>Respuesta Exitosa</th>
+                            <th>Errores Posibles</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="method-badge method-post">POST</span></td>
+                            <td><code>/registro</code></td>
+                            <td>Da de alta un usuario persistiendo su contraseña hasheada en SQLite.</td>
+                            <td><code>201 Created</code></td>
+                            <td><code>400 Bad Request</code><br><code>409 Conflict</code> (Usuario duplicado)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method-badge method-post">POST</span></td>
+                            <td><code>/login</code></td>
+                            <td>Valida credenciales comparando contra el hash. Acceso seguro sin enumeración.</td>
+                            <td><code>200 OK</code></td>
+                            <td><code>400 Bad Request</code><br><code>401 Unauthorized</code> (Inválido)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method-badge method-get">GET</span></td>
+                            <td><code>/tareas</code></td>
+                            <td>Retorna la interfaz web HTML con la bienvenida al sistema y estado del servicio.</td>
+                            <td><code>200 OK</code> (text/html)</td>
+                            <td><code>500 Internal Error</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 3. DECISIONES TÉCNICAS Y SEGURIDAD -->
+        <section id="conceptos">
+            <h2>🔐 Decisiones Técnicas y Respuestas Teóricas</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>¿Por qué Hashear Contraseñas?</h3>
+                    <p>
+                        Almacenar credenciales en texto plano expone la identidad de los usuarios ante eventuales filtraciones. 
+                        Se utilizó <code>werkzeug.security</code> para aplicar algoritmos de hash criptográfico unidireccional con <strong>sal (salting)</strong>. 
+                        Esto garantiza <strong>irreversibilidad matemática</strong> y neutraliza ataques mediante <em>Tablas Arcoíris (Rainbow Tables)</em> y ataques de diccionario, ya que contraseñas iguales producen resúmenes alfanuméricos completamente diferentes.
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>Ventajas de SQLite y Modo WAL</h3>
+                    <p>
+                        SQLite ofrece un modelo <strong>serverless</strong> de cero configuración, integrando el motor relacional directamente en el proceso de Python con almacenamiento en un único archivo (<code>tareas.db</code>).
+                        Para maximizar la resiliencia en red y evitar bloqueos por concurrencia, se configuró el modo <strong>WAL (Write-Ahead Logging)</strong> junto con <code>busy_timeout</code>, permitiendo lecturas concurrentes sin detener las escrituras.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. EVIDENCIAS Y CAPTURAS DE PRUEBA -->
+        <section id="capturas">
+            <h2>📸 Evidencias de Funcionamiento</h2>
+            <div class="screenshot-grid">
+                
+                <div class="screenshot-card">
+                    <!-- Reemplaza la ruta 'img/servidor.png' con tu captura -->
+                    <img src="img/servidor.png" alt="Captura del Servidor Flask en ejecución" onerror="this.src='https://placehold.co/600x350/1e293b/38bdf8?text=Captura+Servidor+Flask+en+Ejecución';">
+                    <div class="screenshot-info">
+                        <h4>1. Servidor Flask en Ejecución</h4>
+                        <p>Inicialización de la base de datos SQLite y recepción de solicitudes HTTP con logs en tiempo real.</p>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <!-- Reemplaza la ruta 'img/cliente.png' con tu captura -->
+                    <img src="img/cliente.png" alt="Captura del Cliente en Consola" onerror="this.src='https://placehold.co/600x350/1e293b/38bdf8?text=Captura+Cliente+Consola+Interactiva';">
+                    <div class="screenshot-info">
+                        <h4>2. Cliente en Consola y Redirección</h4>
+                        <p>Registro de usuario nuevo (201), validación de usuario duplicado (409) y login exitoso con redirección a tareas.</p>
+                    </div>
+                </div>
+
+                <div class="screenshot-card">
+                    <!-- Reemplaza la ruta 'img/html_tareas.png' con tu captura -->
+                    <img src="img/html_tareas.png" alt="Captura de Bienvenida GET /tareas" onerror="this.src='https://placehold.co/600x350/1e293b/38bdf8?text=Captura+Vista+Web+GET+/tareas';">
+                    <div class="screenshot-info">
+                        <h4>3. Vista HTML de Bienvenida (`GET /tareas`)</h4>
+                        <p>Renderizado en el navegador web mostrando el estado activo de la API y de la conexión SQLite.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Trabajo Práctico Formativo Obligatorio 2 &bull; Programación sobre Redes &bull; IFTS Nº 29</p>
+    </footer>
+
+</body>
+</html>

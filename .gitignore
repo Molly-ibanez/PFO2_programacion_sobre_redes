@@ -1,0 +1,12 @@
+# Entorno virtual
+venv/
+env/
+
+# Archivos de caché de Python
+__pycache__/
+*.pyc
+
+# Base de datos SQLite local
+*.db
+*.db-wal
+*.db-shm
