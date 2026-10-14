@@ -97,8 +97,8 @@ Para evitar bloqueos y problemas de tiempo de espera (`Read timed out` o `databa
 
 ### 1. Clonar el Repositorio e Instalar Dependencias
 ```bash
-git clone https://github.com/TU_USUARIO/pfo2-gestion-tareas.git
-cd pfo2-gestion-tareas
+git clone https://github.com/Molly-ibanez/PFO2_programacion_sobre_redes
+cd PFO2_programacion_sobre_redes
 
 # Crear entorno virtual (opcional pero recomendado)
 python3 -m venv venv
