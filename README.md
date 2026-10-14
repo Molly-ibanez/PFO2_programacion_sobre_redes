@@ -128,16 +128,6 @@ Aparecerá un menú interactivo con las siguientes opciones:
 
 ##
 
----
-
-## 🌐 Publicación en GitHub Pages
-
-Para cumplir con el requerimiento de alojar el proyecto en GitHub Pages:
-1. Subir el archivo `index.html` incluido en este repositorio a la raíz de tu proyecto en GitHub.
-2. Ir a **Settings** (Configuración) de tu repositorio en GitHub.
-3. En el menú lateral izquierdo, seleccionar **Pages**.
-4. En **Build and deployment** -> **Branch**, seleccionar `main` (o `master`) y carpeta `/(root)`.
-5. Hacer clic en **Save**. En un par de minutos tu sitio estará en vivo en `https://TU_USUARIO.github.io/TU_REPOSITORIO/`.
 
 ---
 
