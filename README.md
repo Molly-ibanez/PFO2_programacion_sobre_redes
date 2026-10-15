@@ -1,5 +1,8 @@
 # PFO 2: Sistema de Gestión de Tareas con API y Base de Datos
 
+> 🌐 **Sitio Web y Presentación del Proyecto (GitHub Pages):**  
+> 👉 **[https://molly-ibanez.github.io/PFO2_programacion_sobre_redes/](https://molly-ibanez.github.io/PFO2_programacion_sobre_redes/)**
+
 Este repositorio contiene la solución completa a la **Práctica Formativa Obligatoria 2 (PFO 2)** de la materia **Programación sobre Redes** (Tecnicatura Superior en Desarrollo de Software a Distancia - IFTS Nº 29).
 
 El proyecto implementa una **API REST** desarrollada con **Flask** y persistencia en **SQLite**, integrando autenticación de usuarios con contraseñas protegidas mediante algoritmos de hash criptográfico unidireccional y un cliente en consola interactivo.
@@ -19,7 +22,7 @@ El proyecto implementa una **API REST** desarrollada con **Flask** y persistenci
 ## 📁 Estructura del Proyecto
 
 ```text
-pfo2_gestion_tareas/
+pfo2_programacion_sobre_redes/
 ├── servidor.py          # API REST en Flask con persistencia en SQLite
 ├── cliente.py           # Cliente en consola interactivo (menú con redirección automática)
 ├── tareas.db            # Base de datos SQLite (generada automáticamente)
@@ -128,7 +131,16 @@ Aparecerá un menú interactivo con las siguientes opciones:
 
 ##
 
+## 🌐 Publicación en GitHub Pages
 
+El proyecto se encuentra alojado y documentado con evidencias fotográficas y video interactivo en:  
+👉 **[https://molly-ibanez.github.io/PFO2_programacion_sobre_redes/](https://molly-ibanez.github.io/PFO2_programacion_sobre_redes/)**
+
+### Contenido disponible en el sitio web:
+* **Ficha técnica:** Resumen de la arquitectura y componentes cliente-servidor.
+* **Documentación interactiva de Endpoints:** Tabla con las rutas `POST /registro`, `POST /login` y `GET /tareas`.
+* **Respuestas conceptuales:** Justificaciones sobre hashing con sal y concurrencia con SQLite WAL.
+* **Evidencias multimedia:** Capturas de pantalla de la base de datos y video MP4 en reproducción continua del cliente consumiendo la API en tiempo real.
 ---
 
 ## 📚 Respuestas Conceptuales
